@@ -46,7 +46,7 @@ import static io.curity.identityserver.plugin.descriptor.DropboxAuthenticatorPlu
 public class DropboxAuthenticatorRequestHandler implements AuthenticatorRequestHandler<Request>
 {
     private static final Logger _logger = LoggerFactory.getLogger(DropboxAuthenticatorRequestHandler.class);
-    private static final String AUTHORIZATION_ENDPOINT = "";
+    private static final String AUTHORIZATION_ENDPOINT = "https://www.dropbox.com/oauth2/authorize";
 
     private final DropboxAuthenticatorPluginConfig _config;
     private final AuthenticatorInformationProvider _authenticatorInformationProvider;

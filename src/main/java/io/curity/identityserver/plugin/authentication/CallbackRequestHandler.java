@@ -75,7 +75,8 @@ public class CallbackRequestHandler implements AuthenticatorRequestHandler<Callb
         if (request.isGetRequest())
         {
             return new CallbackRequestModel(request);
-        } else
+        }
+        else
         {
             throw _exceptionFactory.methodNotAllowed();
         }
@@ -96,11 +97,24 @@ public class CallbackRequestHandler implements AuthenticatorRequestHandler<Callb
         Map<String, Object> tokenResponseData = redeemCodeForTokens(requestModel);
 
         List<Attribute> subjectAttributers = new ArrayList<>();
-        subjectAttributers.add(Attribute.of("id", Objects.toString(tokenResponseData.get("id"))));
-        
+        @Nullable
+        Object accountId = tokenResponseData.get("account_id");
+        @Nullable
+        Object teamId = tokenResponseData.get("team_id");
+        String id;
+        if (accountId == null)
+        {
+            subjectAttributers.add(Attribute.of("team_id", Objects.toString(teamId)));
+            id = Objects.toString(teamId);
+        }
+        else
+        {
+            subjectAttributers.add(Attribute.of("account_id", Objects.toString(accountId)));
+            id = Objects.toString(accountId);
+        }
 
         AuthenticationAttributes attributes = AuthenticationAttributes.of(
-                SubjectAttributes.of(tokenResponseData.get("id").toString(), Attributes.of(subjectAttributers)),
+                SubjectAttributes.of(id, Attributes.of(subjectAttributers)),
                 ContextAttributes.of(Attributes.of(Attribute.of("access_token", tokenResponseData.get("access_token").toString()))));
         AuthenticationResult authenticationResult = new AuthenticationResult(attributes);
         return Optional.ofNullable(authenticationResult);
@@ -109,7 +123,7 @@ public class CallbackRequestHandler implements AuthenticatorRequestHandler<Callb
     private Map<String, Object> redeemCodeForTokens(CallbackRequestModel requestModel)
     {
         HttpResponse tokenResponse = getWebServiceClient()
-                .withPath("/oauth/v2/accessToken")
+                .withPath("/oauth2/token")
                 .request()
                 .contentType("application/x-www-form-urlencoded")
                 .body(getFormEncodedBodyFrom(createPostData(_config.getClientId(), _config.getClientSecret(),
@@ -138,10 +152,11 @@ public class CallbackRequestHandler implements AuthenticatorRequestHandler<Callb
 
         if (httpClient.isPresent())
         {
-            return _webServiceClientFactory.create(httpClient.get()).withHost("host.server.com");
-        } else
+            return _webServiceClientFactory.create(httpClient.get()).withHost("api.dropboxapi.com");
+        }
+        else
         {
-            return _webServiceClientFactory.create(URI.create("https://host.server.com"));
+            return _webServiceClientFactory.create(URI.create("https://api.dropboxapi.com"));
         }
     }
 
@@ -219,7 +234,8 @@ public class CallbackRequestHandler implements AuthenticatorRequestHandler<Callb
         if (sessionAttribute != null && state.equals(sessionAttribute.getValueOfType(String.class)))
         {
             _logger.debug("State matches session");
-        } else
+        }
+        else
         {
             _logger.debug("State did not match session");
 

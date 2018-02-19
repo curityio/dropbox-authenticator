@@ -96,7 +96,7 @@ The easiest way to configure a new Dropbox authenticator is using the Curity adm
 
         .. note::
 
-        The Dropbox-specific configuration is generated dynamically based on the `configuration model defined in the Java interface <https://github.com/curityio/identityserver.plugins.authenticators.dropbox-authenticator/blob/master/src/main/java/io/curity/identityserver/plugin/config/DropboxAuthenticatorPluginConfig.java>`_.
+        The Dropbox-specific configuration is generated dynamically based on the `configuration model defined in the Java interface <https://github.com/curityio/dropbox-authenticator/blob/master/src/main/java/io/curity/identityserver/plugin/config/DropboxAuthenticatorPluginConfig.java>`_.
 
 6. Certain required and optional configuration settings may be provided. One of these is the ``HTTP Client`` setting. This is the HTTP client that will be used to communicate with the Dropbox OAuth server's token and user info endpoints. To define this, do the following:
 
