@@ -14,9 +14,9 @@
  *  limitations under the License.
  */
 
-package io.curity.identityserver.plugin.authentication;
+package io.curity.identityserver.plugin.dropbox.authentication;
 
-import io.curity.identityserver.plugin.config.DropboxAuthenticatorPluginConfig;
+import io.curity.identityserver.plugin.dropbox.config.DropboxAuthenticatorPluginConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import se.curity.identityserver.sdk.Nullable;

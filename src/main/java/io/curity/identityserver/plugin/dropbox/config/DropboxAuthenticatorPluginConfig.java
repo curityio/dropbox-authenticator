@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package io.curity.identityserver.plugin.config;
+package io.curity.identityserver.plugin.dropbox.config;
 
 
 import se.curity.identityserver.sdk.config.Configuration;

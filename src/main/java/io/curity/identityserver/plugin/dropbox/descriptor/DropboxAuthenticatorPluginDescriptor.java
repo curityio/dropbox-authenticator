@@ -14,11 +14,11 @@
  *  limitations under the License.
  */
 
-package io.curity.identityserver.plugin.descriptor;
+package io.curity.identityserver.plugin.dropbox.descriptor;
 
-import io.curity.identityserver.plugin.authentication.CallbackRequestHandler;
-import io.curity.identityserver.plugin.authentication.DropboxAuthenticatorRequestHandler;
-import io.curity.identityserver.plugin.config.DropboxAuthenticatorPluginConfig;
+import io.curity.identityserver.plugin.dropbox.authentication.CallbackRequestHandler;
+import io.curity.identityserver.plugin.dropbox.authentication.DropboxAuthenticatorRequestHandler;
+import io.curity.identityserver.plugin.dropbox.config.DropboxAuthenticatorPluginConfig;
 import se.curity.identityserver.sdk.authentication.AuthenticatorRequestHandler;
 import se.curity.identityserver.sdk.plugin.descriptor.AuthenticatorPluginDescriptor;
 

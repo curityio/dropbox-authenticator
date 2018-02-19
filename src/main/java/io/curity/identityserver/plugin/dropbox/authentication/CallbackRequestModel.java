@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package io.curity.identityserver.plugin.authentication;
+package io.curity.identityserver.plugin.dropbox.authentication;
 
 import se.curity.identityserver.sdk.Nullable;
 import se.curity.identityserver.sdk.web.Request;
