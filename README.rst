@@ -1,8 +1,8 @@
 Dropbox Authenticator Plug-in
 =============================
 
-.. image:: https://travis-ci.org/curityio/identityserver.plugins.authenticators.dropbox-authenticator.svg?branch=dev
-     :target: https://travis-ci.org/curityio/identityserver.plugins.authenticators.dropbox-authenticator
+.. image:: https://travis-ci.org/curityio/dropbox-authenticator.svg?branch=master
+     :target: https://travis-ci.org/curityio/dropbox-authenticator
 
 This project provides an opens source Dropbox Authenticator plug-in for the Curity Identity Server. This allows an administrator to add functionality to Curity which will then enable end users to login using their Dropbox credentials. The app that integrates with Curity may also be configured to receive the Dropbox access token and refresh token, allowing it to manage resources in Dropbox.
 
@@ -25,7 +25,7 @@ The source is very easy to compile. To do so from a shell, issue this command: `
 Installation
 ~~~~~~~~~~~~
 
-To install this plug-in, either download a binary version available from the `releases section of this project's GitHub repository <https://github.com/curityio/identityserver.plugins.authenticators.dropbox-authenticator/releases>`_ or compile it from source (as described above). If you compiled the plug-in from source, the package will be placed in the ``target`` subdirectory. The resulting JAR file or the one downloaded from GitHub needs to placed in the directory ``${IDSVR_HOME}/usr/share/plugins/identityserver.plugins.authenticators.dropbox``. (The name of the last directory, ``identityserver.plugins.authenticators.dropbox``, which is the plug-in group, is arbitrary and can be anything.) After doing so, the plug-in will become available as soon as the node is restarted.
+To install this plug-in, either download a binary version available from the `releases section of this project's GitHub repository <https://github.com/curityio/dropbox-authenticator/releases>`_ or compile it from source (as described above). If you compiled the plug-in from source, the package will be placed in the ``target`` subdirectory. The resulting JAR file or the one downloaded from GitHub needs to placed in the directory ``${IDSVR_HOME}/usr/share/plugins/dropbox``. (The name of the last directory, ``dropbox``, which is the plug-in group, is arbitrary and can be anything.) After doing so, the plug-in will become available as soon as the node is restarted.
 
 .. note::
 
@@ -36,25 +36,19 @@ For a more detailed explanation of installing plug-ins, refer to the `Curity dev
 Creating an App in Dropbox
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-As `described in the Dropbox documentation <https://developer.identityserver.plugins.authenticators.dropbox.com/docs/oauth2>`_, you can `create apps <https://www.identityserver.plugins.authenticators.dropbox.com/developer/apps>`_ that use the Dropbox APIs as shown in the following figure:
+As `described in the Dropbox documentation <https://www.dropbox.com/developers>`_, you can `create apps <https://www.dropbox.com/developers/apps/create>`_ that use the Dropbox APIs as shown in the following figure:
 
-    .. figure:: docs/images/create-identityserver.plugins.authenticators.dropbox-app.png
-        :name: doc-new-identityserver.plugins.authenticators.dropbox-app
+    .. figure:: docs/images/create-dropbox-app.png
+        :name: doc-new-dropbox-app
         :align: center
         :width: 500px
 
-
-
-    .. figure:: docs/images/create-identityserver.plugins.authenticators.dropbox-app1.png
-        :name: new-identityserver.plugins.authenticators.dropbox-app
-        :align: center
-        :width: 500px
 
     Fill in all the required information as shown in above image.
 
-When you view the app's configuration after creating it, you'll find the ``Client ID`` and ``Client Secret``. These will be needed later when configuring the plug-in in Curity.
+When you view the app's configuration after creating it, you'll find the ``App Key`` and ``App Secret`` (click on ``show`` to view it). These will be needed later when configuring the plug-in in Curity.
 
-Dropbox will also display the ``Authorized Redirect URLs`` in the new app's configuration. One of these need to match the yet-to-be-created Dropbox authenticator instance in Curity. The default will not work, and, if used, will result in an error. This should be updated to some URL that follows the pattern ``$baseUrl/$authenticationEndpointPath/$identityserver.plugins.authenticators.dropboxAuthnticatorId/callback``, where each of these URI components has the following meaning:
+Dropbox will also display the ``OAuth2 Redirect URIs`` in the new app's configuration. One of these need to match the yet-to-be-created Dropbox authenticator instance in Curity. The default will not work, and, if used, will result in an error. This should be updated to some URL that follows the pattern ``$baseUrl/$authenticationEndpointPath/$dropboxAuthnticatorId/callback``, where each of these URI components has the following meaning:
 
 ============================== ============================================================================================
 URI Component                  Meaning
@@ -65,18 +59,13 @@ URI Component                  Meaning
 ``authenticationEndpointPath`` The path of the authentication endpoint. In the admin GUI, this is located in the
                                authentication profile's ``Endpoints`` tab for the endpoint that has the type
                                ``auth-authentication``.
-``dropboxAuthenticatorId``    This is the name given to the Dropbox authenticator when defining it (e.g., ``identityserver.plugins.authenticators.dropbox1``).
+``dropboxAuthenticatorId``    This is the name given to the Dropbox authenticator when defining it (e.g., ``dropbox1``).
 ============================== ============================================================================================
 
-    .. figure:: docs/images/create-identityserver.plugins.authenticators.dropbox-app2.png
+    .. figure:: docs/images/create-dropbox-app2.png
         :align: center
         :width: 500px
 
-    It could be helpful to also enable additional scopes. Scopes are the Dropbox-related rights or permissions that the app is requesting. If the final application (not Curity, but the downstream app) is going to perform actions using the Dropbox API, additional scopes probably should be enabled. Refer to the `Dropbox documentation on scopes <https://developer.atlassian.com/cloud/identityserver.plugins.authenticators.dropbox/identityserver.plugins.authenticators.dropbox-cloud-rest-api-scopes>`_ for an explanation of those that can be enabled and what they allow.
-
-.. warning::
-
-    If the app configuration in Dropbox does not allow a certain scope (e.g., the ``Read Email Address`` scope) but that scope is enabled in the authenticator in Curity, a server error will result. For this reason, it is important to align these two configurations or not to define any when configuring the plug-in in Curity.
 
 Creating a Dropbox Authenticator in Curity
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -88,7 +77,7 @@ The easiest way to configure a new Dropbox authenticator is using the Curity adm
 3. Enter a name (e.g., ``dropbox1``). This name needs to match the URI component in the callback URI set in the Dropbox app.
 4. For the type, pick the ``Dropbox`` option:
 
-    .. figure:: docs/images/identityserver.plugins.authenticators.dropbox-authenticator-type-in-curity.png
+    .. figure:: docs/images/dropbox-authenticator-type-in-curity.png
         :align: center
         :width: 600px
 
@@ -104,7 +93,7 @@ The easiest way to configure a new Dropbox authenticator is using the Curity adm
     B. Next to ``HTTP``, click ``New``.
     C. Enter some name (e.g., ``dropboxClient``).
 
-        .. figure:: docs/images/identityserver.plugins.authenticators.dropbox-http-client.png
+        .. figure:: docs/images/dropbox-http-client.png
             :align: center
             :width: 400px
 
@@ -113,9 +102,8 @@ The easiest way to configure a new Dropbox authenticator is using the Curity adm
         .. figure:: docs/images/http-client.png
 
 
-8. In the ``Client ID`` textfield, enter the ``Client ID`` from the Dropbox client app.
-9. Also enter the matching ``Client Secret``.
-10. If you wish to limit the scopes that Curity will request of Dropbox, toggle on the desired scopes (e.g., ``Read Email Address`` or ``Manage Company Page``).
+8. In the ``Client ID`` textfield, enter the ``App Key`` from the Dropbox client app.
+9. In the ``Client Secret`` textfield, enter the ``App Secret`` from the Dropbox client app.
 
 Once all of these changes are made, they will be staged, but not committed (i.e., not running). To make them active, click the ``Commit`` menu option in the ``Changes`` menu. Optionally enter a comment in the ``Deploy Changes`` dialogue and click ``OK``.
 
